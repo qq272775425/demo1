@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个性旋转按钮</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        ul{
+            list-style: none;
+        }
+        #container_btn{
+            width: 50px;
+            height: 50px;
+            position: fixed;
+            left: 200px;
+            top: 200px;
+        }
+        #btn_menu li, #btn_home{
+            width: 50px;
+            height: 50px;
+            position: absolute;
+        }
+        #btn_menu li{
+            left: 0;
+            top: 0;
+            -webkit-transition: all 1s ease;
+        }
+        #btn_home{
+            -webkit-transition: transform 1s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="container_btn">
+        <ul id="btn_menu">
+            <li><img src="images/close_btn.png" alt=""/></li>
+            <li><img src="images/full_btn.png" alt=""/></li>
+            <li><img src="images/open_btn.png" alt=""/></li>
+            <li><img src="images/prev_btn.png" alt=""/></li>
+            <li><img src="images/refres_btn.png" alt=""/></li>
+        </ul>
+        <div id="btn_home">
+            <img src="img/home.png" alt=""/>
+        </div>
+    </div>
+    <script>
+        var oHome = document.getElementById('btn_home');
+        var oMenu = document.getElementById('btn_menu');
+        var aLi = oMenu.getElementsByTagName('li');
+        var bClicked = false;//false代表收缩，true为展开
+        oHome.onclick = function(){
+            if(!bClicked){
+                this.style.WebkitTransform = 'rotate(-360deg)';
+                for(var i=0; i<5; i++){
+                    aLi[i].style.WebkitTransitionDelay = 0.1*i+'s';
+                    aLi[i].style.WebkitTransform = 'rotate(-360deg) scale(1)';
+                    aLi[i].style.left = -150 * Math.sin(22.5*i*Math.PI/180) + 'px';
+                    aLi[i].style.top = -150 * Math.cos(22.5*i*Math.PI/180) + 'px';
+                }
+            }else{
+                this.style.WebkitTransform = 'rotate(0deg)';
+                for(var i=0; i<5; i++){
+                    aLi[i].style.WebkitTransitionDuration = '1s';
+                    aLi[i].style.WebkitTransitionDelay = 0.1*(4-i)+'s';
+                    aLi[i].style.WebkitTransform = 'rotate(0deg) scale(1)';
+                    aLi[i].style.left = 0;
+                    aLi[i].style.top = 0;
+                }
+            }
+            bClicked = !bClicked;
+
+        };
+
+        var fn = function(){
+            this.style.WebkitTransitionDuration = '0.1s';
+            this.style.WebkitTransform = 'rotate(-360deg) scale(1)';
+            this.style.opacity = 1;
+            this.removeEventListener('webkitTransitionEnd', fn, false);
+        };
+
+        for(var i=0; i<5; i++){
+            aLi[i].onclick = function(){
+                this.style.WebkitTransitionDuration = '0.2s';
+                this.style.WebkitTransform = 'rotate(-360deg) scale(2)';
+                this.style.opacity = 0.2;
+                this.addEventListener('webkitTransitionEnd', fn, false);
+            };
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+</html>
